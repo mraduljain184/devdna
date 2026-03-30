@@ -1,0 +1,201 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                String     @id @default(cuid())
+  email             String?    @unique
+  name              String?
+  avatarUrl         String?
+  githubId          String     @unique
+  githubUsername    String     @unique
+  role              Role       @default(DEVELOPER)
+  profileVisibility Visibility @default(PUBLIC)
+  bio               String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  githubConnection  GithubConnection?
+  repositories      Repository[]
+  dnaProfile        DnaProfile?
+  dnaSnapshots      DnaSnapshot[]
+  insights          DnaInsight[]
+  teamMemberships   TeamMember[]
+  ownedTeams        Team[]         @relation("TeamOwner")
+  achievements      Achievement[]
+  notifications     Notification[]
+}
+
+model GithubConnection {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  accessToken   String
+  reposAnalyzed Int       @default(0)
+  lastSyncedAt  DateTime?
+  createdAt     DateTime  @default(now())
+
+  user          User      @relation(fields: [userId], references: [id])
+}
+
+model Repository {
+  id             String    @id @default(cuid())
+  userId         String
+  githubRepoId   String
+  name           String
+  fullName       String
+  language       String?
+  isPrivate      Boolean   @default(false)
+  isIncluded     Boolean   @default(true)
+  lastAnalyzedAt DateTime?
+  commitCount    Int       @default(0)
+  starCount      Int       @default(0)
+  createdAt      DateTime  @default(now())
+
+  user           User        @relation(fields: [userId], references: [id])
+  codeMetrics    CodeMetrics?
+}
+
+model DnaProfile {
+  id                 String    @id @default(cuid())
+  userId             String    @unique
+  clarityScore       Float     @default(0)
+  defensivenessScore Float     @default(0)
+  velocityScore      Float     @default(0)
+  architectureScore  Float     @default(0)
+  reliabilityScore   Float     @default(0)
+  consistencyScore   Float     @default(0)
+  collaborationScore Float     @default(0)
+  growthScore        Float     @default(0)
+  overallScore       Float     @default(0)
+  personalityType    String?
+  analyzedAt         DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  user               User      @relation(fields: [userId], references: [id])
+}
+
+model DnaSnapshot {
+  id                 String   @id @default(cuid())
+  userId             String
+  snapshotDate       DateTime
+  clarityScore       Float
+  defensivenessScore Float
+  velocityScore      Float
+  architectureScore  Float
+  reliabilityScore   Float
+  consistencyScore   Float
+  collaborationScore Float
+  growthScore        Float
+  overallScore       Float
+  personalityType    String?
+
+  user               User     @relation(fields: [userId], references: [id])
+}
+
+model CodeMetrics {
+  id                     String   @id @default(cuid())
+  userId                 String
+  repoId                 String   @unique
+  avgFunctionLength      Float?
+  commentDensity         Float?
+  testCoverage           Float?
+  errorHandlingRate      Float?
+  avgComplexity          Float?
+  codeChurn              Float?
+  namingConsistencyScore Float?
+  commitMessageQuality   Float?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  repository             Repository @relation(fields: [repoId], references: [id])
+}
+
+model DnaInsight {
+  id        String          @id @default(cuid())
+  userId    String
+  type      InsightType
+  message   String
+  severity  InsightSeverity
+  isRead    Boolean         @default(false)
+  createdAt DateTime        @default(now())
+
+  user      User            @relation(fields: [userId], references: [id])
+}
+
+model Team {
+  id         String       @id @default(cuid())
+  name       String
+  ownerId    String
+  inviteCode String       @unique @default(cuid())
+  createdAt  DateTime     @default(now())
+
+  owner      User         @relation("TeamOwner", fields: [ownerId], references: [id])
+  members    TeamMember[]
+}
+
+model TeamMember {
+  id       String   @id @default(cuid())
+  teamId   String
+  userId   String
+  role     TeamRole @default(MEMBER)
+  joinedAt DateTime @default(now())
+
+  team     Team     @relation(fields: [teamId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+}
+
+model Achievement {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeType String
+  earnedAt  DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  DEVELOPER
+  RECRUITER
+  TEAM_LEAD
+  ADMIN
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  ANONYMOUS
+}
+
+enum InsightType {
+  STRENGTH
+  WEAKNESS
+  TIP
+  MILESTONE
+}
+
+enum InsightSeverity {
+  POSITIVE
+  WARNING
+  INFO
+}
+
+enum TeamRole {
+  LEAD
+  MEMBER
+}

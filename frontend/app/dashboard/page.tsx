@@ -1,23 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store";
 import api from "@/lib/api";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { user, setUser, setToken, setLoading, logout } = useAuthStore();
 
   useEffect(() => {
     const token = localStorage.getItem("devdna_token");
 
     if (!token) {
-      window.location.replace("/login");
+      router.push("/login");
       return;
     }
 
     setToken(token);
 
-    // Fetch current user
     api
       .get("/api/auth/me")
       .then((res) => {
@@ -26,9 +27,9 @@ export default function DashboardPage() {
       })
       .catch(() => {
         logout();
-        window.location.replace("/login");
+        router.push("/login");
       });
-  }, [setUser, setToken, setLoading, logout]);
+  }, [router, setUser, setToken, setLoading, logout]);
 
   if (!user) {
     return (
@@ -40,6 +41,8 @@ export default function DashboardPage() {
       </main>
     );
   }
+
+  const dnaProfile = user.dnaProfile;
 
   return (
     <main className="min-h-screen bg-gray-950">
@@ -63,9 +66,21 @@ export default function DashboardPage() {
               </span>
             </div>
             <button
+              onClick={() => router.push("/profile")}
+              className="text-gray-400 hover:text-white text-sm transition-colors"
+            >
+              My Profile
+            </button>
+            <button
+              onClick={() => router.push("/evolution")}
+              className="text-gray-400 hover:text-white text-sm transition-colors"
+            >
+              Evolution
+            </button>
+            <button
               onClick={() => {
                 logout();
-                window.location.replace("/login");
+                router.push("/login");
               }}
               className="text-gray-500 hover:text-white text-sm transition-colors"
             >
@@ -83,21 +98,33 @@ export default function DashboardPage() {
             Welcome, {user.name || user.githubUsername}! 👋
           </h2>
           <p className="text-gray-400">
-            Your DevDNA profile is being set up. Start by analyzing your
-            repositories.
+            {dnaProfile
+              ? "Your DevDNA profile is ready. Here are your results."
+              : "Your DevDNA profile is being set up. Start by analyzing your repositories."}
           </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {[
-            { label: "DNA Score", value: "—", emoji: "🧬", color: "emerald" },
-            { label: "Repositories", value: "—", emoji: "📁", color: "blue" },
+            {
+              label: "Overall DNA Score",
+              value: dnaProfile
+                ? `${Math.round(dnaProfile.overallScore)}`
+                : "—",
+              emoji: "🧬",
+            },
             {
               label: "Personality Type",
-              value: "—",
+              value: dnaProfile ? dnaProfile.personalityType : "—",
               emoji: "🧠",
-              color: "purple",
+            },
+            {
+              label: "Clarity Score",
+              value: dnaProfile
+                ? `${Math.round(dnaProfile.clarityScore)}`
+                : "—",
+              emoji: "💡",
             },
           ].map((stat) => (
             <div
@@ -113,18 +140,71 @@ export default function DashboardPage() {
           ))}
         </div>
 
+        {/* DNA Scores */}
+        {dnaProfile && (
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
+            <h3 className="text-white text-xl font-semibold mb-6">
+              🔬 Your DNA Breakdown
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { label: "💡 Clarity", score: dnaProfile.clarityScore },
+                {
+                  label: "🛡️ Defensiveness",
+                  score: dnaProfile.defensivenessScore,
+                },
+                { label: "⚡ Velocity", score: dnaProfile.velocityScore },
+                {
+                  label: "🏗️ Architecture",
+                  score: dnaProfile.architectureScore,
+                },
+                { label: "🧪 Reliability", score: dnaProfile.reliabilityScore },
+                { label: "🔁 Consistency", score: dnaProfile.consistencyScore },
+                {
+                  label: "🤝 Collaboration",
+                  score: dnaProfile.collaborationScore,
+                },
+                { label: "📈 Growth", score: dnaProfile.growthScore },
+              ].map((item) => (
+                <div key={item.label}>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-300 text-sm">{item.label}</span>
+                    <span className="text-emerald-400 text-sm font-semibold">
+                      {Math.round(item.score)}
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-800 rounded-full h-2">
+                    <div
+                      className="bg-emerald-400 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${item.score}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* CTA */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center">
           <div className="text-5xl mb-4">🔬</div>
           <h3 className="text-white text-xl font-semibold mb-2">
-            Ready to discover your coding DNA?
+            {dnaProfile
+              ? "Re-analyze your repositories"
+              : "Ready to discover your coding DNA?"}
           </h3>
           <p className="text-gray-400 mb-6">
-            Connect your repositories and we'll analyze your unique coding
-            patterns
+            {dnaProfile
+              ? "Run a fresh analysis to update your DNA scores"
+              : "Connect your repositories and we'll analyze your unique coding patterns"}
           </p>
-          <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-3 rounded-xl transition-all">
-            Analyze My Repositories →
+          <button
+            onClick={() => router.push("/dashboard/repos")}
+            className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-3 rounded-xl transition-all"
+          >
+            {dnaProfile
+              ? "🔄 Re-Analyze My DNA"
+              : "🔬 Analyze My Repositories →"}
           </button>
         </div>
       </div>

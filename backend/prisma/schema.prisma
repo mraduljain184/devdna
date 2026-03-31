@@ -57,6 +57,8 @@ model Repository {
 
   user           User        @relation(fields: [userId], references: [id])
   codeMetrics    CodeMetrics?
+
+  @@unique([userId, githubRepoId])
 }
 
 model DnaProfile {

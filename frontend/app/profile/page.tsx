@@ -85,7 +85,7 @@ export default function ProfilePage() {
             onClick={() => router.push("/dashboard/repos")}
             className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-xl transition-all"
           >
-            🔬 Analyze My DNA
+            Analyze My DNA
           </button>
         </div>
       </main>
@@ -143,7 +143,7 @@ export default function ProfilePage() {
               onClick={() => router.push("/dashboard")}
               className="text-gray-400 hover:text-white text-sm transition-colors"
             >
-              ← Dashboard
+              Dashboard
             </button>
             <button
               onClick={() => {
@@ -221,9 +221,7 @@ export default function ProfilePage() {
 
         {/* Radar Chart */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-          <h3 className="text-white text-xl font-semibold mb-6">
-            🕸️ DNA Radar
-          </h3>
+          <h3 className="text-white text-xl font-semibold mb-6">DNA Radar</h3>
           <DNARadarChart dnaProfile={dnaProfile} />
         </div>
 
@@ -252,19 +250,19 @@ export default function ProfilePage() {
             onClick={() => router.push("/dashboard/repos")}
             className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-3 rounded-xl transition-all"
           >
-            🔄 Re-Analyze DNA
+            Re-Analyze DNA
           </button>
           <button
             onClick={() => router.push("/evolution")}
             className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-8 py-3 rounded-xl transition-all"
           >
-            📈 View Evolution
+            View Evolution
           </button>
           <button
             onClick={() => router.push("/dashboard")}
             className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-8 py-3 rounded-xl transition-all"
           >
-            ← Back to Dashboard
+            Back to Dashboard
           </button>
         </div>
       </div>

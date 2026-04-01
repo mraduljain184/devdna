@@ -78,6 +78,12 @@ export default function DashboardPage() {
               Evolution
             </button>
             <button
+              onClick={() => router.push("/benchmark")}
+              className="text-gray-400 hover:text-white text-sm transition-colors"
+            >
+              Benchmark
+            </button>
+            <button
               onClick={() => {
                 logout();
                 router.push("/login");

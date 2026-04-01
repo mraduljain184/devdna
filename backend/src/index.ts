@@ -5,6 +5,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
 import dnaRoutes from "./routes/dna";
+import benchmarkRoutes from "./routes/benchmark";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/dna", dnaRoutes);
+app.use("/api/benchmark", benchmarkRoutes);
 
 // Health check
 app.get("/health", (req, res) => {

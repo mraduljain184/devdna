@@ -84,6 +84,12 @@ export default function DashboardPage() {
               Benchmark
             </button>
             <button
+              onClick={() => router.push("/teams")}
+              className="text-gray-400 hover:text-white text-sm transition-colors"
+            >
+              Teams
+            </button>
+            <button
               onClick={() => {
                 logout();
                 router.push("/login");

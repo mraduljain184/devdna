@@ -90,6 +90,18 @@ export default function DashboardPage() {
               Teams
             </button>
             <button
+              onClick={() => router.push("/leaderboard")}
+              className="text-gray-400 hover:text-white text-sm transition-colors"
+            >
+              Leaderboard
+            </button>
+            <button
+              onClick={() => router.push(`/u/${user.githubUsername}`)}
+              className="text-gray-400 hover:text-white text-sm transition-colors"
+            >
+              Public Profile
+            </button>
+            <button
               onClick={() => {
                 logout();
                 router.push("/login");

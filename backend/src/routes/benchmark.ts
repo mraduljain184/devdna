@@ -1,19 +1,16 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "../lib/prisma";
+import { getCache, setCache, CACHE_TTL } from "../lib/redis";
 
 const router = express.Router();
 
-// Middleware to verify JWT token
 const authenticate = async (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization;
-
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-
   const token = authHeader.split(" ")[1];
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
     req.userId = decoded.userId;
@@ -23,16 +20,13 @@ const authenticate = async (req: any, res: any, next: any) => {
   }
 };
 
-// Calculate percentile rank
 function calculatePercentile(scores: number[], userScore: number): number {
   const below = scores.filter((s) => s < userScore).length;
   return Math.round((below / scores.length) * 100);
 }
 
-// Get benchmark data
 router.get("/", authenticate, async (req: any, res) => {
   try {
-    // Get current user DNA profile
     const userProfile = await prisma.dnaProfile.findUnique({
       where: { userId: req.userId },
     });
@@ -43,7 +37,14 @@ router.get("/", authenticate, async (req: any, res) => {
       });
     }
 
-    // Get ALL DNA profiles (anonymized)
+    // Check cache
+    const cacheKey = `benchmark:${req.userId}`;
+    const cached = await getCache(cacheKey);
+    if (cached) {
+      console.log(`✅ Cache hit: ${cacheKey}`);
+      return res.json(cached);
+    }
+
     const allProfiles = await prisma.dnaProfile.findMany({
       select: {
         clarityScore: true,
@@ -65,7 +66,6 @@ router.get("/", authenticate, async (req: any, res) => {
         .json({ message: "Not enough data for benchmarking" });
     }
 
-    // Calculate percentiles for each dimension
     const dimensions = [
       "clarityScore",
       "defensivenessScore",
@@ -79,20 +79,17 @@ router.get("/", authenticate, async (req: any, res) => {
     ] as const;
 
     const percentiles: Record<string, number> = {};
-
     dimensions.forEach((dim) => {
       const allScores = allProfiles.map((p) => p[dim]);
       percentiles[dim] = calculatePercentile(allScores, userProfile[dim]);
     });
 
-    // Calculate personality type distribution
     const personalityDistribution: Record<string, number> = {};
     allProfiles.forEach((p) => {
       const type = p.personalityType || "The Generalist";
       personalityDistribution[type] = (personalityDistribution[type] || 0) + 1;
     });
 
-    // Calculate averages
     const averages: Record<string, number> = {};
     dimensions.forEach((dim) => {
       const allScores = allProfiles.map((p) => p[dim]);
@@ -101,19 +98,23 @@ router.get("/", authenticate, async (req: any, res) => {
       );
     });
 
-    // Find similar developers (within 10 points of overall score)
     const similarDevs = allProfiles.filter(
       (p) => Math.abs(p.overallScore - userProfile.overallScore) <= 10,
     ).length;
 
-    res.json({
+    const response = {
       totalDevelopers: allProfiles.length,
       percentiles,
       averages,
       personalityDistribution,
       similarDevs,
       userProfile,
-    });
+    };
+
+    // Save to cache
+    await setCache(cacheKey, response, CACHE_TTL.BENCHMARK);
+
+    res.json(response);
   } catch (error) {
     console.error("Benchmark error:", error);
     res.status(500).json({ message: "Failed to fetch benchmark data" });

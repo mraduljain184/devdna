@@ -148,6 +148,11 @@ router.post("/analyze", authenticate, async (req: any, res) => {
       },
     });
 
+    const { deleteCache, deleteCachePattern } = await import("../lib/redis");
+    await deleteCache("leaderboard");
+    await deleteCache(`benchmark:${req.userId}`);
+    await deleteCachePattern(`public_profile:*`);
+
     res.json({ dnaProfile, scores });
   } catch (error) {
     console.error("DNA analysis error:", error);

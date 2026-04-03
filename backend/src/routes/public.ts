@@ -1,5 +1,6 @@
 import express from "express";
 import { prisma } from "../lib/prisma";
+import { getCache, setCache, CACHE_TTL } from "../lib/redis";
 
 const router = express.Router();
 
@@ -7,6 +8,14 @@ const router = express.Router();
 router.get("/profile/:username", async (req, res) => {
   try {
     const { username } = req.params;
+
+    // Check cache first
+    const cacheKey = `public_profile:${username}`;
+    const cached = await getCache(cacheKey);
+    if (cached) {
+      console.log(`✅ Cache hit: ${cacheKey}`);
+      return res.json(cached);
+    }
 
     const user = await prisma.user.findUnique({
       where: { githubUsername: username },
@@ -28,12 +37,10 @@ router.get("/profile/:username", async (req, res) => {
       return res.status(404).json({ message: "Developer not found" });
     }
 
-    // Check visibility
     if (user.profileVisibility === "PRIVATE") {
       return res.status(403).json({ message: "This profile is private" });
     }
 
-    // Return anonymized if anonymous
     if (user.profileVisibility === "ANONYMOUS") {
       return res.json({
         user: {
@@ -46,8 +53,7 @@ router.get("/profile/:username", async (req, res) => {
       });
     }
 
-    // Return full public profile
-    res.json({
+    const response = {
       user: {
         id: user.id,
         name: user.name,
@@ -58,16 +64,29 @@ router.get("/profile/:username", async (req, res) => {
         dnaSnapshots: user.dnaSnapshots,
         repositories: user.repositories,
       },
-    });
+    };
+
+    // Save to cache
+    await setCache(cacheKey, response, CACHE_TTL.PUBLIC_PROFILE);
+
+    res.json(response);
   } catch (error) {
     console.error("Public profile error:", error);
     res.status(500).json({ message: "Failed to fetch profile" });
   }
 });
 
-// Get leaderboard — top developers by overall score
+// Get leaderboard
 router.get("/leaderboard", async (req, res) => {
   try {
+    // Check cache first
+    const cacheKey = "leaderboard";
+    const cached = await getCache(cacheKey);
+    if (cached) {
+      console.log(`✅ Cache hit: ${cacheKey}`);
+      return res.json(cached);
+    }
+
     const profiles = await prisma.dnaProfile.findMany({
       where: {
         user: {
@@ -88,7 +107,12 @@ router.get("/leaderboard", async (req, res) => {
       take: 20,
     });
 
-    res.json({ leaderboard: profiles });
+    const response = { leaderboard: profiles };
+
+    // Save to cache
+    await setCache(cacheKey, response, CACHE_TTL.LEADERBOARD);
+
+    res.json(response);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch leaderboard" });
   }

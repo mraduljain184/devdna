@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
-    name: Deploy to EC2
+  build-and-push:
+    name: Build & Push Docker Images
     runs-on: ubuntu-latest
 
     steps:
@@ -36,49 +36,5 @@ jobs:
           push: true
           tags: mraduljain184/devdna-frontend:latest
 
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd ~/devdna
-
-            git pull origin main
-
-            # Create .env file with secrets
-            cat > .env << EOF
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            GITHUB_CLIENT_ID=${{ secrets.GH_CLIENT_ID }}
-            GITHUB_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }}
-            FRONTEND_URL=http://${{ secrets.EC2_HOST }}
-            NEXTAUTH_URL=http://${{ secrets.EC2_HOST }}
-            NEXTAUTH_SECRET=${{ secrets.JWT_SECRET }}
-            NEXT_PUBLIC_API_URL=http://${{ secrets.EC2_HOST }}/api
-            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            AWS_REGION=ap-south-1
-            AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET }}
-            EOF
-
-            # Pull latest Docker images
-            docker pull mraduljain184/devdna-backend:latest
-            docker pull mraduljain184/devdna-frontend:latest
-
-            # Restart containers
-            docker compose down
-            docker compose up -d
-
-            # Clean up
-            docker image prune -f
-
-            echo "✅ Deployment complete!"
-
-      - name: Deployment Success
-        if: success()
-        run: echo "🚀 DevDNA deployed successfully!"
-
-      - name: Deployment Failed
-        if: failure()
-        run: echo "❌ Deployment failed!"
+      - name: Success
+        run: echo "🚀 Docker images pushed successfully!"

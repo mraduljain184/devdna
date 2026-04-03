@@ -1,7 +1,3 @@
-# CI = Continuous Integration
-# Runs on every push to any branch
-# Checks that code builds correctly
-
 name: CI — Build & Test
 
 on:
@@ -11,39 +7,32 @@ on:
     branches: [main]
 
 jobs:
-  # Job 1: Test the Backend
   test-backend:
     name: Test Backend
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Download the code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      # Step 3: Install pnpm
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
 
-      # Step 4: Install dependencies
       - name: Install backend dependencies
         working-directory: ./backend
         run: pnpm install
 
-      # Step 5: Check TypeScript compiles
       - name: TypeScript check
         working-directory: ./backend
         run: pnpm build
 
-  # Job 2: Test the Frontend
   test-frontend:
     name: Test Frontend
     runs-on: ubuntu-latest
@@ -66,7 +55,6 @@ jobs:
         working-directory: ./frontend
         run: pnpm install
 
-      # Check Next.js builds correctly
       - name: Build frontend
         working-directory: ./frontend
         env:
@@ -76,34 +64,3 @@ jobs:
           GH_CLIENT_ID: test_id
           GH_CLIENT_SECRET: test_secret
         run: pnpm build
-
-  # Job 3: Build Docker images
-  # Only runs if both tests pass
-  build-docker:
-    name: Build Docker Images
-    runs-on: ubuntu-latest
-    needs: [test-backend, test-frontend]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Setup Docker Buildx for better builds
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # Build backend image (just to verify it works)
-      - name: Build backend Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          push: false
-          tags: devdna-backend:test
-
-      # Build frontend image
-      - name: Build frontend Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          push: false
-          tags: devdna-frontend:test

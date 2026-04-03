@@ -1,5 +1,4 @@
 services:
-  # PostgreSQL Database
   postgres:
     image: postgres:16-alpine
     container_name: devdna-postgres
@@ -18,9 +17,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Redis Cache
-  # Super fast in-memory store
-  # Caches heavy DB queries
   redis:
     image: redis:7-alpine
     container_name: devdna-redis
@@ -36,11 +32,8 @@ services:
       retries: 5
     command: redis-server --appendonly yes
 
-  # Node.js Backend
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: mraduljain184/devdna-backend:latest
     container_name: devdna-backend
     restart: always
     ports:
@@ -50,8 +43,8 @@ services:
       PORT: 8000
       NODE_ENV: production
       JWT_SECRET: ${JWT_SECRET}
-      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
-      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GITHUB_CLIENT_ID: ${GH_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GH_CLIENT_SECRET}
       FRONTEND_URL: ${FRONTEND_URL}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -65,11 +58,8 @@ services:
       redis:
         condition: service_healthy
 
-  # Next.js Frontend
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: mraduljain184/devdna-frontend:latest
     container_name: devdna-frontend
     restart: always
     ports:
@@ -78,12 +68,11 @@ services:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
-      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
-      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GITHUB_CLIENT_ID: ${GH_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GH_CLIENT_SECRET}
     depends_on:
       - backend
 
-  # NGINX Reverse Proxy
   nginx:
     image: nginx:alpine
     container_name: devdna-nginx

@@ -29,6 +29,17 @@ jobs:
         working-directory: ./backend
         run: pnpm install
 
+      - name: Create backend .env
+        working-directory: ./backend
+        run: |
+          echo "DATABASE_URL=postgresql://postgres@localhost:5432/devdna" >> .env
+          echo "PORT=8000" >> .env
+          echo "NODE_ENV=test" >> .env
+          echo "JWT_SECRET=test_secret" >> .env
+          echo "GITHUB_CLIENT_ID=test_id" >> .env
+          echo "GITHUB_CLIENT_SECRET=test_secret" >> .env
+          echo "FRONTEND_URL=http://localhost:3000" >> .env
+
       - name: TypeScript check
         working-directory: ./backend
         run: pnpm build
@@ -55,12 +66,15 @@ jobs:
         working-directory: ./frontend
         run: pnpm install
 
+      - name: Create frontend .env.local
+        working-directory: ./frontend
+        run: |
+          echo "NEXT_PUBLIC_API_URL=http://localhost:8000" >> .env.local
+          echo "NEXTAUTH_URL=http://localhost:3000" >> .env.local
+          echo "NEXTAUTH_SECRET=test_secret" >> .env.local
+          echo "GITHUB_CLIENT_ID=test_id" >> .env.local
+          echo "GITHUB_CLIENT_SECRET=test_secret" >> .env.local
+
       - name: Build frontend
         working-directory: ./frontend
-        env:
-          NEXT_PUBLIC_API_URL: http://localhost:8000
-          NEXTAUTH_URL: http://localhost:3000
-          NEXTAUTH_SECRET: test_secret
-          GH_CLIENT_ID: test_id
-          GH_CLIENT_SECRET: test_secret
         run: pnpm build

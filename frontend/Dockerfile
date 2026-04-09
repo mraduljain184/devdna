@@ -1,4 +1,3 @@
-cat > ~/Desktop/devdna/frontend/Dockerfile << 'EOF'
 # Stage 1 — Build
 FROM node:20-alpine AS builder
 
@@ -11,7 +10,6 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-# Accept build args and set as env vars for build
 ARG NEXT_PUBLIC_API_URL
 ARG NEXTAUTH_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
@@ -37,4 +35,3 @@ RUN pnpm install --prod --frozen-lockfile
 EXPOSE 3000
 
 CMD ["pnpm", "start"]
-EOF

@@ -13,13 +13,13 @@ export default function LoginPage() {
   }, [user]);
 
   const handleGitHubLogin = () => {
-    window.location.href = "http://localhost:8000/api/auth/github";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    window.location.href = `${apiUrl}/api/auth/github`;
   };
 
   return (
     <main className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-10">
           <h1 className="text-5xl font-bold text-white mb-3">
             🧬 Dev<span className="text-emerald-400">DNA</span>
@@ -29,7 +29,6 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Card */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
           <h2 className="text-white text-2xl font-semibold mb-2">
             Welcome back
@@ -38,7 +37,6 @@ export default function LoginPage() {
             Connect your GitHub to analyze your coding DNA
           </p>
 
-          {/* GitHub Login Button */}
           <button
             onClick={handleGitHubLogin}
             className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-gray-900 font-semibold py-3 px-6 rounded-xl transition-all duration-200"
@@ -49,7 +47,6 @@ export default function LoginPage() {
             Continue with GitHub
           </button>
 
-          {/* Divider */}
           <div className="mt-8 pt-6 border-t border-gray-800">
             <p className="text-gray-500 text-sm text-center">
               By signing in, you agree to let DevDNA analyze your public
@@ -58,7 +55,6 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Features */}
         <div className="mt-8 grid grid-cols-3 gap-4">
           {[
             { emoji: "🔬", text: "Analyze your code patterns" },

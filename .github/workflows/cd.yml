@@ -31,5 +31,23 @@ jobs:
           build-args: |
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
             NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
-      - name: Success
-        run: echo "🚀 Docker images pushed successfully!"
+
+  deploy:
+    name: Deploy to EC2
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/devdna
+            docker compose pull backend frontend
+            docker compose up -d --force-recreate backend frontend
+            docker image prune -f
+            echo "✅ Deployed successfully!"

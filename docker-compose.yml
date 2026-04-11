@@ -85,6 +85,16 @@ services:
       - backend
       - frontend
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: devdna-pgadmin
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@devdna.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+
 volumes:
   postgres_data:
   redis_data:

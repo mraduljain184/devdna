@@ -4,8 +4,6 @@
 
 > _"Every developer writes code differently. DevDNA decodes what makes you, you."_
 
-🔗 **Live Demo:** [http://3.7.71.55](http://3.7.71.55)
-
 ---
 
 ## 📸 Screenshots

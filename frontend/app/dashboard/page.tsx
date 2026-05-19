@@ -33,10 +33,10 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Loading your DNA...</p>
+          <p className="text-slate-500 mt-4">Loading your DNA...</p>
         </div>
       </main>
     );
@@ -45,11 +45,11 @@ export default function DashboardPage() {
   const dnaProfile = user.dnaProfile;
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-slate-50">
       {/* Navbar */}
-      <nav className="border-b border-gray-800 px-6 py-4">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-slate-900">
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -61,43 +61,43 @@ export default function DashboardPage() {
                   className="w-8 h-8 rounded-full"
                 />
               )}
-              <span className="text-gray-300 text-sm">
+              <span className="text-slate-600 text-sm">
                 {user.name || user.githubUsername}
               </span>
             </div>
             <button
               onClick={() => router.push("/profile")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               My Profile
             </button>
             <button
               onClick={() => router.push("/evolution")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Evolution
             </button>
             <button
               onClick={() => router.push("/benchmark")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Benchmark
             </button>
             <button
               onClick={() => router.push("/teams")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Teams
             </button>
             <button
               onClick={() => router.push("/leaderboard")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Leaderboard
             </button>
             <button
               onClick={() => router.push(`/u/${user.githubUsername}`)}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Public Profile
             </button>
@@ -106,7 +106,7 @@ export default function DashboardPage() {
                 logout();
                 router.push("/login");
               }}
-              className="text-gray-500 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Logout
             </button>
@@ -118,10 +118,10 @@ export default function DashboardPage() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Welcome */}
         <div className="mb-10">
-          <h2 className="text-3xl font-bold text-white mb-2">
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">
             Welcome, {user.name || user.githubUsername}! 👋
           </h2>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             {dnaProfile
               ? "Your DevDNA profile is ready. Here are your results."
               : "Your DevDNA profile is being set up. Start by analyzing your repositories."}
@@ -153,21 +153,21 @@ export default function DashboardPage() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-gray-900 border border-gray-800 rounded-2xl p-6"
+              className="bg-white border border-slate-200 rounded-2xl p-6"
             >
               <div className="text-3xl mb-3">{stat.emoji}</div>
-              <div className="text-2xl font-bold text-white mb-1">
+              <div className="text-2xl font-bold text-slate-900 mb-1">
                 {stat.value}
               </div>
-              <div className="text-gray-400 text-sm">{stat.label}</div>
+              <div className="text-slate-500 text-sm">{stat.label}</div>
             </div>
           ))}
         </div>
 
         {/* DNA Scores */}
         {dnaProfile && (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-            <h3 className="text-white text-xl font-semibold mb-6">
+          <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+            <h3 className="text-slate-900 text-xl font-semibold mb-6">
               🔬 Your DNA Breakdown
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -192,12 +192,12 @@ export default function DashboardPage() {
               ].map((item) => (
                 <div key={item.label}>
                   <div className="flex justify-between mb-2">
-                    <span className="text-gray-300 text-sm">{item.label}</span>
+                    <span className="text-slate-600 text-sm">{item.label}</span>
                     <span className="text-emerald-400 text-sm font-semibold">
                       {Math.round(item.score)}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2">
+                  <div className="w-full bg-slate-100 rounded-full h-2">
                     <div
                       className="bg-emerald-400 h-2 rounded-full transition-all duration-500"
                       style={{ width: `${item.score}%` }}
@@ -210,14 +210,14 @@ export default function DashboardPage() {
         )}
 
         {/* CTA */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center">
           <div className="text-5xl mb-4">🔬</div>
-          <h3 className="text-white text-xl font-semibold mb-2">
+          <h3 className="text-slate-900 text-xl font-semibold mb-2">
             {dnaProfile
               ? "Re-analyze your repositories"
               : "Ready to discover your coding DNA?"}
           </h3>
-          <p className="text-gray-400 mb-6">
+          <p className="text-slate-500 mb-6">
             {dnaProfile
               ? "Run a fresh analysis to update your DNA scores"
               : "Connect your repositories and we'll analyze your unique coding patterns"}

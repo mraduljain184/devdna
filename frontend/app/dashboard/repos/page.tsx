@@ -82,25 +82,25 @@ export default function ReposPage() {
       Swift: "bg-orange-400",
       Kotlin: "bg-purple-500",
     };
-    return colors[language || ""] || "bg-gray-500";
+    return colors[language || ""] || "bg-slate-500";
   };
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Fetching your repositories...</p>
+          <p className="text-slate-500 mt-4">Fetching your repositories...</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-950">
-      <nav className="border-b border-gray-800 px-6 py-4">
+    <main className="min-h-screen bg-slate-50">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-slate-900">
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -113,7 +113,7 @@ export default function ReposPage() {
             )}
             <button
               onClick={() => router.push("/dashboard")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               ← Back to Dashboard
             </button>
@@ -124,10 +124,10 @@ export default function ReposPage() {
       <div className="max-w-6xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">
+            <h2 className="text-3xl font-bold text-slate-900 mb-2">
               Your Repositories
             </h2>
-            <p className="text-gray-400">
+            <p className="text-slate-500">
               Found{" "}
               <span className="text-emerald-400 font-semibold">
                 {repos.length}
@@ -156,15 +156,15 @@ export default function ReposPage() {
           {repos.map((repo) => (
             <div
               key={repo.id}
-              className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-600 transition-all"
+              className="bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-400 transition-all"
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="text-white font-semibold text-sm">
+                  <h3 className="text-slate-900 font-semibold text-sm">
                     {repo.name}
                   </h3>
                   {repo.private && (
-                    <span className="text-xs text-gray-500 bg-gray-800 px-2 py-0.5 rounded-full mt-1 inline-block">
+                    <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full mt-1 inline-block">
                       Private
                     </span>
                   )}
@@ -174,14 +174,14 @@ export default function ReposPage() {
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-white transition-colors text-xs"
+                  className="text-slate-500 hover:text-slate-900 transition-colors text-xs"
                 >
                   ↗
                 </a>
               </div>
 
               {repo.description && (
-                <p className="text-gray-400 text-xs mb-3 line-clamp-2">
+                <p className="text-slate-500 text-xs mb-3 line-clamp-2">
                   {repo.description}
                 </p>
               )}
@@ -192,7 +192,7 @@ export default function ReposPage() {
                     <div
                       className={`w-2.5 h-2.5 rounded-full ${getLanguageColor(repo.language)}`}
                     />
-                    <span className="text-gray-400 text-xs">
+                    <span className="text-slate-500 text-xs">
                       {repo.language}
                     </span>
                   </div>
@@ -200,7 +200,7 @@ export default function ReposPage() {
                 {repo.stargazers_count > 0 && (
                   <div className="flex items-center gap-1">
                     <span className="text-yellow-400 text-xs">★</span>
-                    <span className="text-gray-400 text-xs">
+                    <span className="text-slate-500 text-xs">
                       {repo.stargazers_count}
                     </span>
                   </div>

@@ -112,10 +112,10 @@ export default function TeamDNAMapPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Loading team DNA map...</p>
+          <p className="text-slate-500 mt-4">Loading team DNA map...</p>
         </div>
       </main>
     )
@@ -127,12 +127,12 @@ export default function TeamDNAMapPage() {
   const membersWithoutDNA = team.members.filter((m) => !m.user.dnaProfile)
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-slate-50">
 
       {/* Navbar */}
-      <nav className="border-b border-gray-800 px-6 py-4">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-slate-900">
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -145,13 +145,13 @@ export default function TeamDNAMapPage() {
             )}
             <button
               onClick={() => router.push('/teams')}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               ← My Teams
             </button>
             <button
               onClick={() => { logout(); router.push('/login') }}
-              className="text-gray-500 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Logout
             </button>
@@ -162,13 +162,13 @@ export default function TeamDNAMapPage() {
       <div className="max-w-6xl mx-auto px-6 py-12">
 
         {/* Team Header */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-2">
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">
                 👥 {team.name}
               </h2>
-              <p className="text-gray-400">
+              <p className="text-slate-500">
                 Led by @{team.owner.githubUsername} •{' '}
                 {team.members.length} member
                 {team.members.length !== 1 ? 's' : ''} •{' '}
@@ -177,7 +177,7 @@ export default function TeamDNAMapPage() {
             </div>
             <button
               onClick={copyInviteCode}
-              className="bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-semibold px-4 py-2 rounded-xl transition-all"
             >
               📋 Copy Invite Code
             </button>
@@ -186,9 +186,9 @@ export default function TeamDNAMapPage() {
 
         {/* Team Average Radar */}
         {teamAverages && (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
+          <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-white text-xl font-semibold">
+              <h3 className="text-slate-900 text-xl font-semibold">
                 🕸️ Team DNA Radar
               </h3>
               <div className="bg-emerald-500/20 px-4 py-2 rounded-xl">
@@ -203,7 +203,7 @@ export default function TeamDNAMapPage() {
 
         {/* Member DNA Cards */}
         <div className="mb-8">
-          <h3 className="text-white text-xl font-semibold mb-6">
+          <h3 className="text-slate-900 text-xl font-semibold mb-6">
             🧬 Member DNA Profiles
           </h3>
 
@@ -215,10 +215,10 @@ export default function TeamDNAMapPage() {
                 onClick={() => setSelectedMember(
                   selectedMember?.id === member.id ? null : member
                 )}
-                className={`bg-gray-900 border rounded-2xl p-6 cursor-pointer transition-all ${
+                className={`bg-white border rounded-2xl p-6 cursor-pointer transition-all ${
                   selectedMember?.id === member.id
                     ? 'border-emerald-500'
-                    : 'border-gray-800 hover:border-gray-600'
+                    : 'border-slate-200 hover:border-slate-400'
                 }`}
               >
                 {/* Member Header */}
@@ -232,14 +232,14 @@ export default function TeamDNAMapPage() {
                   )}
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h4 className="text-white font-semibold">
+                      <h4 className="text-slate-900 font-semibold">
                         {member.user.name || member.user.githubUsername}
                       </h4>
                       {member.role === 'LEAD' && (
                         <span className="text-yellow-400 text-xs">👑 Lead</span>
                       )}
                     </div>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-slate-500 text-sm">
                       @{member.user.githubUsername}
                     </p>
                     <p className="text-emerald-400 text-sm font-semibold">
@@ -259,12 +259,12 @@ export default function TeamDNAMapPage() {
                   {dimensionLabels.map((dim) => (
                     <div key={dim.key}>
                       <div className="flex justify-between mb-1">
-                        <span className="text-gray-400 text-xs">{dim.label}</span>
+                        <span className="text-slate-500 text-xs">{dim.label}</span>
                         <span className="text-xs font-semibold" style={{ color: dim.color }}>
                           {Math.round((member.user.dnaProfile as any)?.[dim.key] || 0)}
                         </span>
                       </div>
-                      <div className="w-full bg-gray-800 rounded-full h-1.5">
+                      <div className="w-full bg-slate-100 rounded-full h-1.5">
                         <div
                           className="h-1.5 rounded-full"
                           style={{
@@ -282,15 +282,15 @@ export default function TeamDNAMapPage() {
 
           {/* Members without DNA */}
           {membersWithoutDNA.length > 0 && (
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-              <h4 className="text-gray-400 text-sm font-semibold mb-4">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6">
+              <h4 className="text-slate-500 text-sm font-semibold mb-4">
                 ⏳ Waiting for DNA analysis
               </h4>
               <div className="flex flex-wrap gap-3">
                 {membersWithoutDNA.map((member) => (
                   <div
                     key={member.id}
-                    className="flex items-center gap-2 bg-gray-800 rounded-xl px-3 py-2"
+                    className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-2"
                   >
                     {member.user.avatarUrl && (
                       <img
@@ -299,7 +299,7 @@ export default function TeamDNAMapPage() {
                         className="w-6 h-6 rounded-full opacity-50"
                       />
                     )}
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-slate-500 text-sm">
                       {member.user.name || member.user.githubUsername}
                     </span>
                   </div>
@@ -311,8 +311,8 @@ export default function TeamDNAMapPage() {
 
         {/* Team Blind Spots */}
         {teamAverages && (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <h3 className="text-white text-xl font-semibold mb-6">
+          <div className="bg-white border border-slate-200 rounded-2xl p-8">
+            <h3 className="text-slate-900 text-xl font-semibold mb-6">
               🔍 Team Insights
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -332,10 +332,10 @@ export default function TeamDNAMapPage() {
                       <h4 className="text-emerald-400 font-semibold mb-2">
                         💪 Team Strength
                       </h4>
-                      <p className="text-white font-bold text-lg">
+                      <p className="text-slate-900 font-bold text-lg">
                         {strongest.label}
                       </p>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-slate-500 text-sm">
                         Team scores {Math.round(strongest.score)} on average
                       </p>
                     </div>
@@ -343,10 +343,10 @@ export default function TeamDNAMapPage() {
                       <h4 className="text-amber-400 font-semibold mb-2">
                         ⚠️ Team Blind Spot
                       </h4>
-                      <p className="text-white font-bold text-lg">
+                      <p className="text-slate-900 font-bold text-lg">
                         {weakest.label}
                       </p>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-slate-500 text-sm">
                         Consider hiring for {Math.round(weakest.score)} avg score
                       </p>
                     </div>

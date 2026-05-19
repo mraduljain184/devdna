@@ -17,20 +17,22 @@
 ## 🚀 Features
 
 ### 🔬 DNA Analysis Engine
+
 Analyzes your GitHub repos, commits, and pull requests to calculate **8 core DNA scores:**
 
-| Score | What It Measures |
-|-------|-----------------|
-| **Clarity** | Code readability and documentation quality |
-| **Defensiveness** | Error handling and edge case coverage |
-| **Velocity** | Coding speed and delivery pace |
-| **Architecture** | Code structure and design patterns |
-| **Reliability** | Test coverage and code stability |
-| **Consistency** | Coding style uniformity across projects |
-| **Collaboration** | PR reviews, teamwork, and communication |
-| **Growth** | Learning curve and skill progression |
+| Score             | What It Measures                           |
+| ----------------- | ------------------------------------------ |
+| **Clarity**       | Code readability and documentation quality |
+| **Defensiveness** | Error handling and edge case coverage      |
+| **Velocity**      | Coding speed and delivery pace             |
+| **Architecture**  | Code structure and design patterns         |
+| **Reliability**   | Test coverage and code stability           |
+| **Consistency**   | Coding style uniformity across projects    |
+| **Collaboration** | PR reviews, teamwork, and communication    |
+| **Growth**        | Learning curve and skill progression       |
 
 ### 🎭 Developer Personality Types
+
 Based on your scores, DevDNA assigns you one of **7 personality types:**
 
 - 🏛️ **The Architect** — Designs elegant, well-structured systems
@@ -42,24 +44,29 @@ Based on your scores, DevDNA assigns you one of **7 personality types:**
 - 🌐 **The Generalist** — Versatile across the full stack
 
 ### 📊 Interactive Visualizations
+
 - **Radar Chart** — Visual DNA fingerprint of your coding style
 - **Score Rings** — Individual SVG ring indicators for each trait
 - **Personality Card** — Shareable card with your developer type
 
 ### 📈 Evolution Timeline
+
 Track how your coding DNA changes over time with historical snapshots and trend analysis.
 
 ### 🏆 Benchmarking
+
 - Compare your DNA against the **community average**
 - See your **percentile ranking** for each trait
 - View the **personality type distribution** across all users
 
 ### 👥 Team DNA Map
+
 - Create or join teams with **invite codes**
 - View **team radar charts** showing collective strengths
 - Identify **team blind spots** and areas for improvement
 
 ### 🌍 Public Profiles & Leaderboard
+
 - Shareable public profile at `/u/[username]`
 - Community **leaderboard** ranking developers by DNA scores
 
@@ -67,19 +74,19 @@ Track how your coding DNA changes over time with historical snapshots and trend 
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | Next.js 16, TypeScript, Tailwind CSS, Recharts |
-| **Backend** | Node.js, Express, TypeScript |
-| **Database** | PostgreSQL 16 (Prisma ORM v5.22) |
-| **Cache** | Redis 7 (ioredis) |
-| **Auth** | GitHub OAuth + JWT |
-| **Storage** | AWS S3 |
-| **Proxy** | NGINX (rate limiting, gzip, security headers) |
-| **Container** | Docker + Docker Compose |
-| **CI/CD** | GitHub Actions (build → push → deploy) |
-| **Cloud** | AWS (EC2, RDS, S3) |
-| **DB Admin** | pgAdmin 4 |
+| Layer         | Technology                                     |
+| ------------- | ---------------------------------------------- |
+| **Frontend**  | Next.js 16, TypeScript, Tailwind CSS, Recharts |
+| **Backend**   | Node.js, Express, TypeScript                   |
+| **Database**  | PostgreSQL 16 (Prisma ORM v5.22)               |
+| **Cache**     | Redis 7 (ioredis)                              |
+| **Auth**      | GitHub OAuth + JWT                             |
+| **Storage**   | AWS S3                                         |
+| **Proxy**     | NGINX (rate limiting, gzip, security headers)  |
+| **Container** | Docker + Docker Compose                        |
+| **CI/CD**     | GitHub Actions (build → push → deploy)         |
+| **Cloud**     | AWS (EC2, RDS, S3)                             |
+| **DB Admin**  | pgAdmin 4                                      |
 
 ---
 
@@ -190,10 +197,10 @@ docker compose up
 
 All services (frontend, backend, postgres, redis, nginx, pgadmin) start automatically.
 
-| Service | URL |
-|---------|-----|
-| App | [http://localhost](http://localhost) |
-| API | [http://localhost/api](http://localhost/api) |
+| Service | URL                                            |
+| ------- | ---------------------------------------------- |
+| App     | [http://localhost](http://localhost)           |
+| API     | [http://localhost/api](http://localhost/api)   |
 | pgAdmin | [http://localhost:5050](http://localhost:5050) |
 
 ---
@@ -213,11 +220,19 @@ JWT_SECRET=your_jwt_secret
 GITHUB_CLIENT_ID=your_github_client_id
 GITHUB_CLIENT_SECRET=your_github_client_secret
 
+# GitHub OAuth
+# In your GitHub OAuth app settings, add this callback URL exactly:
+# http://localhost:3000/api/auth/callback/github
+
 # Frontend
 FRONTEND_URL=http://localhost:3000
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your_nextauth_secret
-NEXT_PUBLIC_API_URL=http://localhost/api
+NEXT_PUBLIC_API_URL=http://localhost:8000
+
+# NOTES
+# `NEXT_PUBLIC_API_URL` should be the backend origin, not a path.
+# The app will use it to call backend routes under `/api/...`.
 
 # AWS (optional, for S3 storage)
 AWS_ACCESS_KEY_ID=your_key
@@ -235,38 +250,43 @@ REDIS_PORT=6379
 ## 📡 API Endpoints
 
 ### Authentication
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/auth/github` | Initiate GitHub OAuth |
-| GET | `/api/auth/callback/github` | OAuth callback handler |
-| GET | `/api/auth/me` | Get current user |
+
+| Method | Endpoint                    | Description            |
+| ------ | --------------------------- | ---------------------- |
+| GET    | `/api/auth/github`          | Initiate GitHub OAuth  |
+| GET    | `/api/auth/callback/github` | OAuth callback handler |
+| GET    | `/api/auth/me`              | Get current user       |
 
 ### DNA Analysis
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/dna/repos` | List user's GitHub repos |
-| POST | `/api/dna/analyze` | Run DNA analysis |
-| GET | `/api/dna/profile` | Get DNA profile |
-| GET | `/api/dna/snapshots` | Get historical snapshots |
+
+| Method | Endpoint             | Description              |
+| ------ | -------------------- | ------------------------ |
+| GET    | `/api/dna/repos`     | List user's GitHub repos |
+| POST   | `/api/dna/analyze`   | Run DNA analysis         |
+| GET    | `/api/dna/profile`   | Get DNA profile          |
+| GET    | `/api/dna/snapshots` | Get historical snapshots |
 
 ### Benchmarking
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/benchmark` | Get benchmark comparison |
+
+| Method | Endpoint         | Description              |
+| ------ | ---------------- | ------------------------ |
+| GET    | `/api/benchmark` | Get benchmark comparison |
 
 ### Teams
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/teams` | List user's teams |
-| POST | `/api/teams` | Create a team |
-| POST | `/api/teams/join` | Join with invite code |
-| GET | `/api/teams/:teamId` | Get team details & DNA map |
+
+| Method | Endpoint             | Description                |
+| ------ | -------------------- | -------------------------- |
+| GET    | `/api/teams`         | List user's teams          |
+| POST   | `/api/teams`         | Create a team              |
+| POST   | `/api/teams/join`    | Join with invite code      |
+| GET    | `/api/teams/:teamId` | Get team details & DNA map |
 
 ### Public
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/public/profile/:username` | Get public profile |
-| GET | `/api/public/leaderboard` | Get leaderboard |
+
+| Method | Endpoint                        | Description        |
+| ------ | ------------------------------- | ------------------ |
+| GET    | `/api/public/profile/:username` | Get public profile |
+| GET    | `/api/public/leaderboard`       | Get leaderboard    |
 
 ---
 
@@ -292,6 +312,7 @@ REDIS_PORT=6379
 ```
 
 **Request Flow:**
+
 1. User visits the app → NGINX routes to Next.js frontend
 2. Frontend makes API calls → NGINX routes `/api/*` to Express backend
 3. Backend authenticates via GitHub OAuth + JWT

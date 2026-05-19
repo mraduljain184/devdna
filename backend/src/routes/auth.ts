@@ -24,13 +24,14 @@ const handleGitHubCallback = async (
   }
 
   try {
-    // Exchange code for access token
+    // Exchange code for access token (include redirect_uri to match authorize)
     const tokenResponse = await axios.post(
       "https://github.com/login/oauth/access_token",
       {
         client_id: process.env.GITHUB_CLIENT_ID,
         client_secret: process.env.GITHUB_CLIENT_SECRET,
         code,
+        redirect_uri: githubRedirectUri,
       },
       { headers: { Accept: "application/json" } },
     );
@@ -65,9 +66,15 @@ const handleGitHubCallback = async (
         avatarUrl: avatar_url,
         email: primaryEmail,
         githubConnection: {
-          update: {
-            accessToken,
-            lastSyncedAt: new Date(),
+          upsert: {
+            update: {
+              accessToken,
+              lastSyncedAt: new Date(),
+            },
+            create: {
+              accessToken,
+              lastSyncedAt: new Date(),
+            },
           },
         },
       },
@@ -95,8 +102,13 @@ const handleGitHubCallback = async (
 
     // Redirect to frontend with token
     res.redirect(`${frontendUrl}/auth/success?token=${jwtToken}`);
-  } catch (error) {
-    console.error("GitHub OAuth error:", error);
+  } catch (error: any) {
+    // Log detailed error from GitHub when available
+    if (error.response && error.response.data) {
+      console.error("GitHub OAuth error response:", error.response.data);
+    } else {
+      console.error("GitHub OAuth error:", error.message || error);
+    }
     res.redirect(`${frontendUrl}/login?error=oauth_failed`);
   }
 };
@@ -129,6 +141,64 @@ router.get("/me", async (req, res) => {
 
     res.json({ user });
   } catch (error) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+});
+
+// Disconnect GitHub account for current user
+router.post("/github/disconnect", async (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+    const userId = decoded.userId;
+
+    // Find existing github connection
+    const conn = await prisma.githubConnection.findUnique({
+      where: { userId },
+    });
+    if (!conn) {
+      return res.status(404).json({ message: "GitHub connection not found" });
+    }
+
+    // Try to revoke token at GitHub so the next auth prompts for consent
+    try {
+      if (
+        process.env.GITHUB_CLIENT_ID &&
+        process.env.GITHUB_CLIENT_SECRET &&
+        conn.accessToken
+      ) {
+        await axios.delete(
+          `https://api.github.com/applications/${process.env.GITHUB_CLIENT_ID}/token`,
+          {
+            auth: {
+              username: process.env.GITHUB_CLIENT_ID,
+              password: process.env.GITHUB_CLIENT_SECRET,
+            },
+            data: { access_token: conn.accessToken },
+            headers: { Accept: "application/vnd.github.v3+json" },
+          },
+        );
+      }
+    } catch (revErr) {
+      console.warn(
+        "Failed to revoke GitHub token (continuing):",
+        revErr?.message || revErr,
+      );
+    }
+
+    // Remove github connection record
+    await prisma.githubConnection.delete({ where: { userId } });
+
+    res.json({ success: true, message: "GitHub disconnected" });
+  } catch (error) {
+    console.error("Disconnect GitHub error:", error);
     res.status(401).json({ message: "Invalid token" });
   }
 });

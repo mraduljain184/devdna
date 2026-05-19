@@ -49,10 +49,10 @@ export default function DNARadarChart({ dnaProfile }: RadarChartProps) {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <RadarChart data={data}>
-        <PolarGrid stroke="#374151" />
+        <PolarGrid stroke="#cbd5e1" />
         <PolarAngleAxis
           dataKey="dimension"
-          tick={{ fill: "#9ca3af", fontSize: 12 }}
+          tick={{ fill: "#64748b", fontSize: 12 }}
         />
         <Radar
           name="DNA"
@@ -64,10 +64,10 @@ export default function DNARadarChart({ dnaProfile }: RadarChartProps) {
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: "#111827",
-            border: "1px solid #374151",
+            backgroundColor: "#ffffff",
+            border: "1px solid #e2e8f0",
             borderRadius: "8px",
-            color: "#fff",
+            color: "#0f172a",
           }}
         />
       </RadarChart>

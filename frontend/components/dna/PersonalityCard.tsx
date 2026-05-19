@@ -89,7 +89,7 @@ export default function PersonalityCard({
 
   return (
     <div
-      className="bg-gray-900 border rounded-2xl p-8"
+      className="bg-white border rounded-2xl p-8"
       style={{ borderColor: info.color + "40" }}
     >
       {/* Header */}
@@ -101,7 +101,7 @@ export default function PersonalityCard({
           {info.emoji}
         </div>
         <div>
-          <p className="text-gray-400 text-sm mb-1">Your Coding Personality</p>
+          <p className="text-slate-500 text-sm mb-1">Your Coding Personality</p>
           <h3 className="text-2xl font-bold" style={{ color: info.color }}>
             {personalityType}
           </h3>
@@ -109,29 +109,29 @@ export default function PersonalityCard({
       </div>
 
       {/* Description */}
-      <p className="text-gray-300 mb-6 leading-relaxed">{info.description}</p>
+      <p className="text-slate-600 mb-6 leading-relaxed">{info.description}</p>
 
       {/* Strengths & Blind Spots */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="bg-gray-800 rounded-xl p-4">
+        <div className="bg-slate-100 rounded-xl p-4">
           <h4 className="text-emerald-400 font-semibold text-sm mb-3">
             ✅ Strengths
           </h4>
           <ul className="space-y-1">
             {info.strengths.map((s) => (
-              <li key={s} className="text-gray-300 text-sm">
+              <li key={s} className="text-slate-600 text-sm">
                 • {s}
               </li>
             ))}
           </ul>
         </div>
-        <div className="bg-gray-800 rounded-xl p-4">
+        <div className="bg-slate-100 rounded-xl p-4">
           <h4 className="text-amber-400 font-semibold text-sm mb-3">
             ⚠️ Blind Spots
           </h4>
           <ul className="space-y-1">
             {info.blindSpots.map((b) => (
-              <li key={b} className="text-gray-300 text-sm">
+              <li key={b} className="text-slate-600 text-sm">
                 • {b}
               </li>
             ))}
@@ -150,7 +150,7 @@ export default function PersonalityCard({
         >
           🤝 Best Team Fit
         </h4>
-        <p className="text-gray-300 text-sm">{info.bestTeamFit}</p>
+        <p className="text-slate-600 text-sm">{info.bestTeamFit}</p>
       </div>
     </div>
   );

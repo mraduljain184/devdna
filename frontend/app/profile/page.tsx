@@ -61,10 +61,10 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Loading your DNA profile...</p>
+          <p className="text-slate-500 mt-4">Loading your DNA profile...</p>
         </div>
       </main>
     );
@@ -72,13 +72,13 @@ export default function ProfilePage() {
 
   if (!dnaProfile) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">🧬</div>
-          <h2 className="text-white text-xl font-semibold mb-2">
+          <h2 className="text-slate-900 text-xl font-semibold mb-2">
             No DNA Profile Yet
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-slate-500 mb-6">
             Analyze your repositories first to generate your DNA profile
           </p>
           <button
@@ -124,11 +124,11 @@ export default function ProfilePage() {
   ];
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-slate-50">
       {/* Navbar */}
-      <nav className="border-b border-gray-800 px-6 py-4">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-slate-900">
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -141,7 +141,7 @@ export default function ProfilePage() {
             )}
             <button
               onClick={() => router.push("/dashboard")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Dashboard
             </button>
@@ -150,7 +150,7 @@ export default function ProfilePage() {
                 logout();
                 router.push("/login");
               }}
-              className="text-gray-500 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Logout
             </button>
@@ -160,7 +160,7 @@ export default function ProfilePage() {
 
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Profile Header */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
             {/* Avatar & Info */}
             <div className="flex flex-col items-center text-center md:text-left md:items-start">
@@ -171,11 +171,11 @@ export default function ProfilePage() {
                   className="w-24 h-24 rounded-full border-4 border-emerald-400 mb-4"
                 />
               )}
-              <h2 className="text-2xl font-bold text-white mb-1">
+              <h2 className="text-2xl font-bold text-slate-900 mb-1">
                 {user?.name || user?.githubUsername}
               </h2>
-              <p className="text-gray-400 mb-2">@{user?.githubUsername}</p>
-              <p className="text-gray-500 text-sm">
+              <p className="text-slate-500 mb-2">@{user?.githubUsername}</p>
+              <p className="text-slate-500 text-sm">
                 Last analyzed:{" "}
                 {new Date(dnaProfile.analyzedAt).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -193,7 +193,7 @@ export default function ProfilePage() {
                 strokeWidth={14}
                 color="#10b981"
               />
-              <p className="text-gray-400 text-sm mt-3">Overall DNA Score</p>
+              <p className="text-slate-500 text-sm mt-3">Overall DNA Score</p>
             </div>
 
             {/* Score Rings Grid */}
@@ -220,14 +220,14 @@ export default function ProfilePage() {
         </div>
 
         {/* Radar Chart */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-          <h3 className="text-white text-xl font-semibold mb-6">DNA Radar</h3>
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+          <h3 className="text-slate-900 text-xl font-semibold mb-6">DNA Radar</h3>
           <DNARadarChart dnaProfile={dnaProfile} />
         </div>
 
         {/* All Score Rings */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-          <h3 className="text-white text-xl font-semibold mb-8">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+          <h3 className="text-slate-900 text-xl font-semibold mb-8">
             🔬 Full DNA Breakdown
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
@@ -253,14 +253,34 @@ export default function ProfilePage() {
             Re-Analyze DNA
           </button>
           <button
+            onClick={async () => {
+              try {
+                await api.post("/api/auth/github/disconnect");
+                const res = await api.get("/api/auth/me");
+                setUser(res.data.user);
+                alert(
+                  "GitHub disconnected successfully. You can now connect a different account.",
+                );
+              } catch (err) {
+                console.error(err);
+                alert(
+                  "Failed to disconnect GitHub. Try logging out and logging in again.",
+                );
+              }
+            }}
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-xl transition-all"
+          >
+            Disconnect GitHub
+          </button>
+          <button
             onClick={() => router.push("/evolution")}
-            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-8 py-3 rounded-xl transition-all"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-8 py-3 rounded-xl transition-all"
           >
             View Evolution
           </button>
           <button
             onClick={() => router.push("/dashboard")}
-            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-8 py-3 rounded-xl transition-all"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-8 py-3 rounded-xl transition-all"
           >
             Back to Dashboard
           </button>

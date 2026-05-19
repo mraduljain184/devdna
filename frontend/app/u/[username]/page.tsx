@@ -110,10 +110,10 @@ export default function PublicProfilePage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Loading profile...</p>
+          <p className="text-slate-500 mt-4">Loading profile...</p>
         </div>
       </main>
     );
@@ -121,13 +121,13 @@ export default function PublicProfilePage() {
 
   if (error || !publicUser) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">🧬</div>
-          <h2 className="text-white text-xl font-semibold mb-2">
+          <h2 className="text-slate-900 text-xl font-semibold mb-2">
             {error || "Profile not found"}
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-slate-500 mb-6">
             This developer hasn't joined DevDNA yet
           </p>
           <button
@@ -142,19 +142,19 @@ export default function PublicProfilePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-slate-50">
       {/* Navbar */}
-      <nav className="border-b border-gray-800 px-6 py-4">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <button
             onClick={() => router.push("/")}
-            className="text-xl font-bold text-white"
+            className="text-xl font-bold text-slate-900"
           >
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </button>
           <button
             onClick={shareProfile}
-            className="bg-gray-800 hover:bg-gray-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold px-4 py-2 rounded-xl transition-all"
           >
             {copied ? "Copied!" : "Share Profile"}
           </button>
@@ -163,7 +163,7 @@ export default function PublicProfilePage() {
 
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Profile Header */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
             {/* Avatar & Info */}
             <div className="flex flex-col items-center text-center md:text-left md:items-start">
@@ -174,21 +174,21 @@ export default function PublicProfilePage() {
                   className="w-24 h-24 rounded-full border-4 border-emerald-400 mb-4"
                 />
               ) : (
-                <div className="w-24 h-24 rounded-full border-4 border-emerald-400 mb-4 bg-gray-800 flex items-center justify-center text-3xl">
+                <div className="w-24 h-24 rounded-full border-4 border-emerald-400 mb-4 bg-slate-100 flex items-center justify-center text-3xl">
                   🧬
                 </div>
               )}
-              <h2 className="text-2xl font-bold text-white mb-1">
+              <h2 className="text-2xl font-bold text-slate-900 mb-1">
                 {publicUser.name || publicUser.githubUsername}
               </h2>
-              <p className="text-gray-400 mb-2">@{publicUser.githubUsername}</p>
+              <p className="text-slate-500 mb-2">@{publicUser.githubUsername}</p>
               {publicUser.bio && (
-                <p className="text-gray-300 text-sm max-w-xs">
+                <p className="text-slate-600 text-sm max-w-xs">
                   {publicUser.bio}
                 </p>
               )}
               {publicUser.dnaProfile && (
-                <p className="text-gray-500 text-xs mt-2">
+                <p className="text-slate-500 text-xs mt-2">
                   Last analyzed:{" "}
                   {new Date(
                     publicUser.dnaProfile.analyzedAt,
@@ -210,7 +210,7 @@ export default function PublicProfilePage() {
                   strokeWidth={14}
                   color="#10b981"
                 />
-                <p className="text-gray-400 text-sm mt-3">Overall DNA Score</p>
+                <p className="text-slate-500 text-sm mt-3">Overall DNA Score</p>
               </div>
             )}
 
@@ -235,7 +235,7 @@ export default function PublicProfilePage() {
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-4xl mb-3">🔬</div>
-                  <p className="text-gray-400">DNA analysis not run yet</p>
+                  <p className="text-slate-500">DNA analysis not run yet</p>
                 </div>
               </div>
             )}
@@ -254,16 +254,16 @@ export default function PublicProfilePage() {
             </div>
 
             {/* Radar Chart */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-              <h3 className="text-white text-xl font-semibold mb-6">
+            <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+              <h3 className="text-slate-900 text-xl font-semibold mb-6">
                 🕸️ DNA Radar
               </h3>
               <DNARadarChart dnaProfile={publicUser.dnaProfile} />
             </div>
 
             {/* All Score Rings */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-              <h3 className="text-white text-xl font-semibold mb-8">
+            <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+              <h3 className="text-slate-900 text-xl font-semibold mb-8">
                 🔬 Full DNA Breakdown
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
@@ -284,8 +284,8 @@ export default function PublicProfilePage() {
 
         {/* Repositories */}
         {publicUser.repositories && publicUser.repositories.length > 0 && (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-            <h3 className="text-white text-xl font-semibold mb-6">
+          <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+            <h3 className="text-slate-900 text-xl font-semibold mb-6">
               Top Repositories
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -295,14 +295,14 @@ export default function PublicProfilePage() {
                   href={`https://github.com/${repo.fullName}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-4 transition-all"
+                  className="bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl p-4 transition-all"
                 >
-                  <h4 className="text-white font-semibold text-sm mb-2">
+                  <h4 className="text-slate-900 font-semibold text-sm mb-2">
                     {repo.name}
                   </h4>
                   <div className="flex items-center gap-3">
                     {repo.language && (
-                      <span className="text-gray-400 text-xs">
+                      <span className="text-slate-500 text-xs">
                         {repo.language}
                       </span>
                     )}
@@ -319,12 +319,12 @@ export default function PublicProfilePage() {
         )}
 
         {/* CTA */}
-        <div className="bg-gray-900 border border-emerald-500/20 rounded-2xl p-8 text-center">
+        <div className="bg-white border border-emerald-500/20 rounded-2xl p-8 text-center">
           <div className="text-4xl mb-3">🧬</div>
-          <h3 className="text-white text-xl font-semibold mb-2">
+          <h3 className="text-slate-900 text-xl font-semibold mb-2">
             Want to discover your coding DNA?
           </h3>
-          <p className="text-gray-400 mb-6">
+          <p className="text-slate-500 mb-6">
             Join DevDNA and find out what makes you unique as a developer
           </p>
           <button

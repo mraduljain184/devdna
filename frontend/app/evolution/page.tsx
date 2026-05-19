@@ -57,15 +57,15 @@ export default function EvolutionPage() {
     const diff = Math.round(current - previous);
     if (diff > 0) return { text: `+${diff}`, color: "text-emerald-400" };
     if (diff < 0) return { text: `${diff}`, color: "text-red-400" };
-    return { text: "0", color: "text-gray-400" };
+    return { text: "0", color: "text-slate-500" };
   };
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Loading your evolution...</p>
+          <p className="text-slate-500 mt-4">Loading your evolution...</p>
         </div>
       </main>
     );
@@ -75,11 +75,11 @@ export default function EvolutionPage() {
   const previous = snapshots[snapshots.length - 2];
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-slate-50">
       {/* Navbar */}
-      <nav className="border-b border-gray-800 px-6 py-4">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-slate-900">
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -92,7 +92,7 @@ export default function EvolutionPage() {
             )}
             <button
               onClick={() => router.push("/dashboard")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               ← Dashboard
             </button>
@@ -101,7 +101,7 @@ export default function EvolutionPage() {
                 logout();
                 router.push("/login");
               }}
-              className="text-gray-500 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Logout
             </button>
@@ -112,10 +112,10 @@ export default function EvolutionPage() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-10">
-          <h2 className="text-3xl font-bold text-white mb-2">
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">
             📈 DNA Evolution Timeline
           </h2>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             Track how your coding DNA has evolved over{" "}
             <span className="text-emerald-400 font-semibold">
               {snapshots.length} analysis
@@ -126,8 +126,8 @@ export default function EvolutionPage() {
 
         {/* Latest vs Previous */}
         {latest && previous && (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-            <h3 className="text-white text-xl font-semibold mb-6">
+          <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+            <h3 className="text-slate-900 text-xl font-semibold mb-6">
               🆚 Latest vs Previous Analysis
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -157,10 +157,10 @@ export default function EvolutionPage() {
                 return (
                   <div
                     key={item.label}
-                    className="bg-gray-800 rounded-xl p-4 text-center"
+                    className="bg-slate-100 rounded-xl p-4 text-center"
                   >
-                    <p className="text-gray-400 text-xs mb-3">{item.label}</p>
-                    <div className="text-2xl font-bold text-white mb-1">
+                    <p className="text-slate-500 text-xs mb-3">{item.label}</p>
+                    <div className="text-2xl font-bold text-slate-900 mb-1">
                       {Math.round(item.current)}
                     </div>
                     <div className={`text-sm font-semibold ${change.color}`}>
@@ -174,22 +174,22 @@ export default function EvolutionPage() {
         )}
 
         {/* Evolution Chart */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-          <h3 className="text-white text-xl font-semibold mb-6">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+          <h3 className="text-slate-900 text-xl font-semibold mb-6">
             📊 Score Evolution
           </h3>
           <EvolutionChart snapshots={snapshots} />
         </div>
 
         {/* Snapshot History */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-          <h3 className="text-white text-xl font-semibold mb-6">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8">
+          <h3 className="text-slate-900 text-xl font-semibold mb-6">
             🕐 Analysis History
           </h3>
           {snapshots.length === 0 ? (
             <div className="text-center py-8">
               <div className="text-4xl mb-3">🧬</div>
-              <p className="text-gray-400">
+              <p className="text-slate-500">
                 No analyses yet. Run your first DNA analysis to start tracking!
               </p>
               <button
@@ -204,7 +204,7 @@ export default function EvolutionPage() {
               {[...snapshots].reverse().map((snapshot, index) => (
                 <div
                   key={snapshot.id}
-                  className="bg-gray-800 rounded-xl p-5 flex items-center justify-between"
+                  className="bg-slate-100 rounded-xl p-5 flex items-center justify-between"
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center">
@@ -213,10 +213,10 @@ export default function EvolutionPage() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-white font-semibold">
+                      <p className="text-slate-900 font-semibold">
                         Analysis #{snapshots.length - index}
                       </p>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-slate-500 text-sm">
                         {new Date(snapshot.snapshotDate).toLocaleDateString(
                           "en-US",
                           {
@@ -232,14 +232,14 @@ export default function EvolutionPage() {
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="text-center">
-                      <p className="text-gray-400 text-xs">Overall</p>
+                      <p className="text-slate-500 text-xs">Overall</p>
                       <p className="text-emerald-400 font-bold">
                         {Math.round(snapshot.overallScore)}
                       </p>
                     </div>
                     <div className="text-center">
-                      <p className="text-gray-400 text-xs">Personality</p>
-                      <p className="text-white text-sm">
+                      <p className="text-slate-500 text-xs">Personality</p>
+                      <p className="text-slate-900 text-sm">
                         {snapshot.personalityType || "—"}
                       </p>
                     </div>

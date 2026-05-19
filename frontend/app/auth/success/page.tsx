@@ -41,13 +41,13 @@ export default function AuthSuccessPage() {
   }, [setUser, setToken, setLoading]);
 
   return (
-    <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+    <main className="min-h-screen bg-slate-50 flex items-center justify-center">
       <div className="text-center">
         <div className="text-6xl mb-4">🧬</div>
-        <h2 className="text-white text-2xl font-semibold mb-2">
+        <h2 className="text-slate-900 text-2xl font-semibold mb-2">
           Analyzing your DNA...
         </h2>
-        <p className="text-gray-400">
+        <p className="text-slate-500">
           Please wait while we set up your profile
         </p>
 

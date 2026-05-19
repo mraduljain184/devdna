@@ -90,10 +90,10 @@ export default function BenchmarkPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Loading benchmark data...</p>
+          <p className="text-slate-500 mt-4">Loading benchmark data...</p>
         </div>
       </main>
     );
@@ -101,10 +101,10 @@ export default function BenchmarkPage() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">🧬</div>
-          <h2 className="text-white text-xl font-semibold mb-2">{error}</h2>
+          <h2 className="text-slate-900 text-xl font-semibold mb-2">{error}</h2>
           <button
             onClick={() => router.push("/dashboard/repos")}
             className="mt-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-xl transition-all"
@@ -137,11 +137,11 @@ export default function BenchmarkPage() {
     }));
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-slate-50">
       {/* Navbar */}
-      <nav className="border-b border-gray-800 px-6 py-4">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-slate-900">
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -154,7 +154,7 @@ export default function BenchmarkPage() {
             )}
             <button
               onClick={() => router.push("/dashboard")}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               ← Dashboard
             </button>
@@ -163,7 +163,7 @@ export default function BenchmarkPage() {
                 logout();
                 router.push("/login");
               }}
-              className="text-gray-500 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Logout
             </button>
@@ -174,10 +174,10 @@ export default function BenchmarkPage() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-10">
-          <h2 className="text-3xl font-bold text-white mb-2">
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">
             🏆 Anonymous Benchmarking
           </h2>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             See how you compare against{" "}
             <span className="text-emerald-400 font-semibold">
               {data.totalDevelopers} developer
@@ -189,12 +189,12 @@ export default function BenchmarkPage() {
 
         {/* Top Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 text-center">
             <div className="text-4xl mb-2">🧬</div>
-            <div className="text-3xl font-bold text-white mb-1">
+            <div className="text-3xl font-bold text-slate-900 mb-1">
               {data.percentiles.overallScore}%
             </div>
-            <div className="text-gray-400 text-sm">Overall Percentile</div>
+            <div className="text-slate-500 text-sm">Overall Percentile</div>
             <div
               className="mt-2 text-sm font-semibold"
               style={{
@@ -205,23 +205,23 @@ export default function BenchmarkPage() {
             </div>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 text-center">
             <div className="text-4xl mb-2">👥</div>
-            <div className="text-3xl font-bold text-white mb-1">
+            <div className="text-3xl font-bold text-slate-900 mb-1">
               {data.similarDevs}
             </div>
-            <div className="text-gray-400 text-sm">Developers like you</div>
+            <div className="text-slate-500 text-sm">Developers like you</div>
             <div className="mt-2 text-emerald-400 text-sm font-semibold">
               Similar DNA profile
             </div>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 text-center">
             <div className="text-4xl mb-2">📊</div>
-            <div className="text-3xl font-bold text-white mb-1">
+            <div className="text-3xl font-bold text-slate-900 mb-1">
               {data.totalDevelopers}
             </div>
-            <div className="text-gray-400 text-sm">Total Developers</div>
+            <div className="text-slate-500 text-sm">Total Developers</div>
             <div className="mt-2 text-emerald-400 text-sm font-semibold">
               In the DevDNA network
             </div>
@@ -229,8 +229,8 @@ export default function BenchmarkPage() {
         </div>
 
         {/* Percentile Breakdown */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-          <h3 className="text-white text-xl font-semibold mb-6">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+          <h3 className="text-slate-900 text-xl font-semibold mb-6">
             📊 Your Percentile Rankings
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -240,14 +240,14 @@ export default function BenchmarkPage() {
                 const percentile = data.percentiles[key] || 0;
                 const color = getPercentileColor(percentile);
                 return (
-                  <div key={key} className="bg-gray-800 rounded-xl p-4">
+                  <div key={key} className="bg-slate-100 rounded-xl p-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300 text-sm">{label}</span>
+                      <span className="text-slate-600 text-sm">{label}</span>
                       <span className="text-sm font-bold" style={{ color }}>
                         Top {100 - percentile}%
                       </span>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+                    <div className="w-full bg-slate-200 rounded-full h-2 mb-2">
                       <div
                         className="h-2 rounded-full transition-all duration-500"
                         style={{
@@ -256,7 +256,7 @@ export default function BenchmarkPage() {
                         }}
                       />
                     </div>
-                    <div className="flex justify-between text-xs text-gray-500">
+                    <div className="flex justify-between text-xs text-slate-500">
                       <span>
                         Your score: {Math.round(data.userProfile[key] || 0)}
                       </span>
@@ -269,8 +269,8 @@ export default function BenchmarkPage() {
         </div>
 
         {/* You vs Average Chart */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-8">
-          <h3 className="text-white text-xl font-semibold mb-6">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 mb-8">
+          <h3 className="text-slate-900 text-xl font-semibold mb-6">
             🆚 You vs Average Developer
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -301,27 +301,27 @@ export default function BenchmarkPage() {
         </div>
 
         {/* Personality Distribution */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-          <h3 className="text-white text-xl font-semibold mb-6">
+        <div className="bg-white border border-slate-200 rounded-2xl p-8">
+          <h3 className="text-slate-900 text-xl font-semibold mb-6">
             🧠 Personality Type Distribution
           </h3>
           <div className="space-y-3">
             {personalityData.map((item) => (
               <div key={item.type} className="flex items-center gap-4">
-                <div className="w-28 text-gray-400 text-sm text-right">
+                <div className="w-28 text-slate-500 text-sm text-right">
                   {item.type}
                 </div>
-                <div className="flex-1 bg-gray-800 rounded-full h-6 relative">
+                <div className="flex-1 bg-slate-100 rounded-full h-6 relative">
                   <div
                     className="bg-emerald-500 h-6 rounded-full transition-all duration-500 flex items-center justify-end pr-2"
                     style={{ width: `${Math.max(item.percentage, 5)}%` }}
                   >
-                    <span className="text-white text-xs font-semibold">
+                    <span className="text-slate-900 text-xs font-semibold">
                       {item.percentage}%
                     </span>
                   </div>
                 </div>
-                <div className="w-12 text-gray-400 text-sm">{item.count}</div>
+                <div className="w-12 text-slate-500 text-sm">{item.count}</div>
               </div>
             ))}
           </div>

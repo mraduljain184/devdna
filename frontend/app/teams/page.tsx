@@ -116,22 +116,22 @@ export default function TeamsPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-400 mt-4">Loading your teams...</p>
+          <p className="text-slate-500 mt-4">Loading your teams...</p>
         </div>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-slate-50">
 
       {/* Navbar */}
-      <nav className="border-b border-gray-800 px-6 py-4">
+      <nav className="border-b border-slate-200 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-slate-900">
             🧬 Dev<span className="text-emerald-400">DNA</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -144,13 +144,13 @@ export default function TeamsPage() {
             )}
             <button
               onClick={() => router.push('/dashboard')}
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               ← Dashboard
             </button>
             <button
               onClick={() => { logout(); router.push('/login') }}
-              className="text-gray-500 hover:text-white text-sm transition-colors"
+              className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
             >
               Logout
             </button>
@@ -163,17 +163,17 @@ export default function TeamsPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">
+            <h2 className="text-3xl font-bold text-slate-900 mb-2">
               👥 My Teams
             </h2>
-            <p className="text-gray-400">
+            <p className="text-slate-500">
               Create or join a team to see your collective DNA map
             </p>
           </div>
           <div className="flex gap-3">
             <button
               onClick={() => setShowJoinModal(true)}
-              className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all text-sm"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-5 py-2.5 rounded-xl transition-all text-sm"
             >
               🔗 Join Team
             </button>
@@ -188,18 +188,18 @@ export default function TeamsPage() {
 
         {/* Teams List */}
         {teams.length === 0 ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-12 text-center">
+          <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center">
             <div className="text-5xl mb-4">👥</div>
-            <h3 className="text-white text-xl font-semibold mb-2">
+            <h3 className="text-slate-900 text-xl font-semibold mb-2">
               No teams yet
             </h3>
-            <p className="text-gray-400 mb-6">
+            <p className="text-slate-500 mb-6">
               Create a team or join one with an invite code
             </p>
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => setShowJoinModal(true)}
-                className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-xl transition-all"
+                className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-xl transition-all"
               >
                 🔗 Join with Code
               </button>
@@ -216,15 +216,15 @@ export default function TeamsPage() {
             {teams.map((team) => (
               <div
                 key={team.id}
-                className="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-gray-600 transition-all"
+                className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-slate-400 transition-all"
               >
                 {/* Team Header */}
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h3 className="text-white text-xl font-bold mb-1">
+                    <h3 className="text-slate-900 text-xl font-bold mb-1">
                       {team.name}
                     </h3>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-slate-500 text-sm">
                       Led by @{team.owner.githubUsername} •{' '}
                       {team.members.length} member
                       {team.members.length !== 1 ? 's' : ''}
@@ -233,7 +233,7 @@ export default function TeamsPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => copyInviteCode(team.inviteCode)}
-                      className="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
+                      className="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
                     >
                       📋 Copy Invite Code
                     </button>
@@ -251,7 +251,7 @@ export default function TeamsPage() {
                   {team.members.map((member) => (
                     <div
                       key={member.id}
-                      className="flex items-center gap-2 bg-gray-800 rounded-xl px-3 py-2"
+                      className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-2"
                     >
                       {member.user.avatarUrl && (
                         <img
@@ -260,7 +260,7 @@ export default function TeamsPage() {
                           className="w-6 h-6 rounded-full"
                         />
                       )}
-                      <span className="text-gray-300 text-sm">
+                      <span className="text-slate-600 text-sm">
                         {member.user.name || member.user.githubUsername}
                       </span>
                       {member.role === 'LEAD' && (
@@ -283,8 +283,8 @@ export default function TeamsPage() {
       {/* Create Team Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-          <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 w-full max-w-md">
-            <h3 className="text-white text-xl font-bold mb-6">
+          <div className="bg-white border border-slate-300 rounded-2xl p-8 w-full max-w-md">
+            <h3 className="text-slate-900 text-xl font-bold mb-6">
               Create a New Team
             </h3>
             <input
@@ -293,12 +293,12 @@ export default function TeamsPage() {
               value={teamName}
               onChange={(e) => setTeamName(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleCreateTeam()}
-              className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 mb-4"
+              className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-emerald-500 mb-4"
             />
             <div className="flex gap-3">
               <button
                 onClick={() => { setShowCreateModal(false); setTeamName('') }}
-                className="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-xl transition-all"
+                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl transition-all"
               >
                 Cancel
               </button>
@@ -317,8 +317,8 @@ export default function TeamsPage() {
       {/* Join Team Modal */}
       {showJoinModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-          <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 w-full max-w-md">
-            <h3 className="text-white text-xl font-bold mb-6">
+          <div className="bg-white border border-slate-300 rounded-2xl p-8 w-full max-w-md">
+            <h3 className="text-slate-900 text-xl font-bold mb-6">
               Join a Team
             </h3>
             <input
@@ -327,12 +327,12 @@ export default function TeamsPage() {
               value={inviteCode}
               onChange={(e) => setInviteCode(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleJoinTeam()}
-              className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 mb-4"
+              className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-emerald-500 mb-4"
             />
             <div className="flex gap-3">
               <button
                 onClick={() => { setShowJoinModal(false); setInviteCode('') }}
-                className="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-xl transition-all"
+                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl transition-all"
               >
                 Cancel
               </button>

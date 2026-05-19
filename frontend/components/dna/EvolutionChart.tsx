@@ -53,10 +53,10 @@ export default function EvolutionChart({ snapshots }: EvolutionChartProps) {
     return (
       <div className="flex flex-col items-center justify-center h-48 text-center">
         <div className="text-4xl mb-3">📈</div>
-        <p className="text-gray-400 text-sm">
+        <p className="text-slate-500 text-sm">
           Run at least 2 analyses to see your evolution timeline
         </p>
-        <p className="text-gray-500 text-xs mt-1">
+        <p className="text-slate-500 text-xs mt-1">
           Come back after your next coding session!
         </p>
       </div>
@@ -66,23 +66,23 @@ export default function EvolutionChart({ snapshots }: EvolutionChartProps) {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
         <XAxis
           dataKey="date"
-          tick={{ fill: "#9ca3af", fontSize: 12 }}
-          axisLine={{ stroke: "#374151" }}
+          tick={{ fill: "#64748b", fontSize: 12 }}
+          axisLine={{ stroke: "#cbd5e1" }}
         />
         <YAxis
           domain={[0, 100]}
-          tick={{ fill: "#9ca3af", fontSize: 12 }}
-          axisLine={{ stroke: "#374151" }}
+          tick={{ fill: "#64748b", fontSize: 12 }}
+          axisLine={{ stroke: "#cbd5e1" }}
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: "#111827",
-            border: "1px solid #374151",
+            backgroundColor: "#ffffff",
+            border: "1px solid #e2e8f0",
             borderRadius: "8px",
-            color: "#fff",
+            color: "#0f172a",
           }}
         />
         <Legend wrapperStyle={{ color: "#9ca3af", fontSize: 12 }} />

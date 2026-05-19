@@ -30,7 +30,7 @@ export default function ScoreRing({
             cy={center}
             r={radius}
             fill="none"
-            stroke="#1f2937"
+            stroke="#cbd5e1"
             strokeWidth={strokeWidth}
           />
           {/* Score circle */}
@@ -50,7 +50,7 @@ export default function ScoreRing({
         {/* Score text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span
-            className="font-bold text-white"
+            className="font-bold text-slate-900"
             style={{ fontSize: size * 0.2 }}
           >
             {Math.round(score)}
@@ -58,7 +58,7 @@ export default function ScoreRing({
         </div>
       </div>
       {label && (
-        <span className="text-gray-400 text-xs text-center">{label}</span>
+        <span className="text-slate-500 text-xs text-center">{label}</span>
       )}
     </div>
   );
